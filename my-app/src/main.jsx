@@ -6,7 +6,7 @@ import Result from "./result";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <BrowserRouter basename="/AutoGen">
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/result" element={<Result />} />

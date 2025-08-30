@@ -2,9 +2,11 @@
 import os, io, zipfile, base64
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
+from datetime import datetime
 
 import requests
 from flask import Flask, request, jsonify, send_file, send_from_directory, abort
+from flask_cors import CORS
 import inspect
 
 from backend import create_and_deploy_project
@@ -12,6 +14,7 @@ from backend import create_and_deploy_project
 
 def create_app():
     app = Flask(__name__)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
 
     # ----------------------
@@ -220,6 +223,15 @@ def create_app():
                 except Exception:
                     out[p.name] = "// (binary or unreadable)"
         return jsonify({"files": out})
+
+    @app.get("/health")
+    def health_check():
+        """Health check endpoint for monitoring"""
+        return jsonify({
+            "status": "healthy",
+            "timestamp": datetime.now().isoformat(),
+            "version": "1.0.0"
+        })
 
     @app.get("/api/preview/<b64base>/", defaults={"relpath": ""})
     @app.get("/api/preview/<b64base>/<path:relpath>")

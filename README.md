@@ -56,6 +56,34 @@ Open http://localhost:5000 in your browser.
 
 
 
+## 🏗️ Project Structure
+
+The project has been reorganized for better production deployment:
+
+```
+AutoGen/
+├── app.py                 # Main Flask application
+├── backend/               # Backend package (production-ready)
+│   ├── __init__.py        # Package initialization
+│   ├── backend.py         # Core backend logic
+│   ├── model.py           # AI model integration
+│   ├── githubHandler.py   # GitHub API integration
+│   ├── projectCreator.py  # Project generation
+│   ├── config.py          # Configuration management
+│   ├── utils.py           # Utility functions
+│   ├── wsgi.py            # WSGI entry point
+│   ├── requirements.txt   # Development dependencies
+│   ├── requirements-prod.txt # Production dependencies
+│   ├── Dockerfile         # Container configuration
+│   ├── docker-compose.yml # Multi-container setup
+│   └── README.md          # Backend documentation
+├── my-app/                # Frontend React application
+├── projects/              # Generated project files
+└── README.md              # This file
+```
+
+For production deployment, see the [Backend README](backend/README.md) for detailed instructions.
+
 ## 🛠️ Prerequisites
 
 Before you begin, ensure you have the following:

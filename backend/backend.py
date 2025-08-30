@@ -6,10 +6,10 @@ from datetime import datetime
 # If you have a working GitHub helper, import it.
 # Otherwise we no-op on deploy.
 try:
-    from githubHandler import create_or_update_repo, enable_pages_and_push
+    from .githubHandler import deploy_to_github, enable_github_pages
 except Exception:
-    create_or_update_repo = None
-    enable_pages_and_push = None
+    deploy_to_github = None
+    enable_github_pages = None
 
 
 PROJECTS_DIR = Path("projects")
@@ -159,19 +159,18 @@ def create_and_deploy_project(
 
     if auto_deploy and github_token and username and repo_name:
         try:
-            if create_or_update_repo and enable_pages_and_push:
+            if deploy_to_github and enable_github_pages:
                 # These helpers are expected to handle: repo create/clean, push files, enable Pages
-                github_url = create_or_update_repo(
+                github_url = deploy_to_github(
+                    project_path=project_path,
+                    github_token=github_token,
                     username=username,
                     repo_name=repo_name,
-                    token=github_token,
-                    local_path=project_path,
                 )
-                pages_url = enable_pages_and_push(
+                pages_url = enable_github_pages(
+                    github_token=github_token,
                     username=username,
                     repo_name=repo_name,
-                    token=github_token,
-                    local_path=project_path,
                 )
             else:
                 # Graceful no-op if GH helper not available
