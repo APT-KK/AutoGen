@@ -6,6 +6,7 @@ from datetime import datetime
 
 import requests
 from flask import Flask, request, jsonify, send_file, send_from_directory, abort
+from flask_cors import CORS
 import inspect
 
 from backend import create_and_deploy_project
@@ -14,6 +15,19 @@ from backend import create_and_deploy_project
 def create_app():
     app = Flask(__name__)
     app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
+    
+    # Configure CORS to allow requests from GitHub Pages
+    CORS(app, resources={
+        r"/api/*": {
+            "origins": [
+                "https://apt-kk.github.io",
+                "http://localhost:3000",
+                "http://localhost:5173"
+            ],
+            "methods": ["GET", "POST", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization"]
+        }
+    })
 
     # ----------------------
     # Helpers
