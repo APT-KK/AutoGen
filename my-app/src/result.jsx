@@ -1,6 +1,7 @@
 // result.jsx
 import React, { useEffect, useState, useMemo } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import { buildApiUrl } from "./config";
 import "./Result.css";
 
 export default function Result() {
@@ -26,7 +27,7 @@ export default function Result() {
       if (!result.project_path) return;
       const q = new URLSearchParams({ path: result.project_path });
       try {
-        const res = await fetch(`/api/files?${q.toString()}`);
+        const res = await fetch(buildApiUrl(`/api/files?${q.toString()}`));
         const data = await res.json();
         if (data && data.files) setFiles(data.files);
       } catch (e) {

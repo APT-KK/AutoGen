@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { buildApiUrl } from "./config";
 import "./App.css"; // keep your CSS
 
 function App() {
@@ -120,7 +121,7 @@ function App() {
     if (canvasData) formData.append("canvas_data", canvasData);
 
     try {
-      const res = await fetch("/api/generate", {
+      const res = await fetch(buildApiUrl("/api/generate"), {
         method: "POST",
         body: formData,
       });
